@@ -27,13 +27,13 @@ class AdminCog(commands.Cog):
         await ctx.message.reference.resolved.reply(message, mention_author=True)
 
     @commands.command("ar")
-    async def addreactionCommand(self, ctx: commands.Context, emoji: discord.Emoji):
+    async def addreactionCommand(self, ctx: commands.Context, emoji: str):
         if ctx.author.id != 1048448686914551879:
             return
         await ctx.message.reference.resolved.add_reaction(emoji)
 
     @commands.command("rr")
-    async def removereactionCommand(self, ctx: commands.Context, emoji: discord.Emoji):
+    async def removereactionCommand(self, ctx: commands.Context, emoji: str):
         if ctx.author.id != 1048448686914551879:
             return
         await ctx.message.reference.resolved.remove_reaction(emoji)
