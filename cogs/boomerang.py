@@ -19,7 +19,7 @@ class BoomerangCog(commands.Cog):
             self.allowedUsers = json.loads(f.read())
         self.process_queue.start()
 
-    @tasks.loop(seconds=5)
+    @tasks.loop(seconds=12)
     async def process_queue(self):
         """キュー内のメッセージを順番に処理する"""
         message = await self.queue.get()
