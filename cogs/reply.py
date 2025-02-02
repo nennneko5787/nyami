@@ -28,7 +28,7 @@ class ReplyCog(commands.Cog):
     async def process_message(self, message: discord.Message):
         if "かいさい" in message.content:
             await message.reply("かいさいって誰のこと？", mention_author=True)
-        elif "ニャミ" in message.content and "好き" in message.content:
+        if "ニャミ" in message.content and "好き" in message.content:
             await message.reply(
                 "ニャミのことを好きでいてありがとう！", mention_author=True
             )
@@ -38,20 +38,20 @@ class ReplyCog(commands.Cog):
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
-        elif "ニャミ" in message.content and "嫌い" in message.content:
+        if "ニャミ" in message.content and "嫌い" in message.content:
             self.bot.cogs["AICog"].allowedUsers.remove(message.author.id)
             self.bot.cogs["AICog"].allowedUsers = list(
                 set(self.bot.cogs["AICog"].allowedUsers)
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
-        elif "死ね" in message.content:
+        if "死ね" in message.content:
             await message.reply("暴言は良くないよ...", mention_author=True)
-        elif "雑魚" in message.content:
+        if "雑魚" in message.content:
             await message.reply(":boomerang:", mention_author=True)
-        elif "障害" in message.content:
+        if "障害" in message.content:
             await message.reply(":boomerang:", mention_author=True)
-        elif "しょうがい" in message.content:
+        if "しょうがい" in message.content:
             await message.reply(":boomerang:", mention_author=True)
 
     @commands.Cog.listener()
