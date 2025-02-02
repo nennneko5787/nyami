@@ -16,9 +16,16 @@ class SniperCog(commands.Cog):
         messages = self.messages
         text = ""
         for message in messages:
-            if ctx.channel.id == message.channel.id:
-                text += f"@{message.author.name} > {message.clean_content}\n"
-                self.messages.remove(message)
+            if isinstance(message, list):
+                before: discord.Message = message[0]
+                after: discord.Message = message[1]
+                if ctx.channel.id == before.channel.id:
+                    text += f"@{before.author.name} > {before.clean_content} -> {after.clean_content}\n"
+                    self.messages.remove(message)
+            else:
+                if ctx.channel.id == message.channel.id:
+                    text += f"@{message.author.name} > {message.clean_content}\n"
+                    self.messages.remove(message)
 
         file = discord.File(io.BytesIO(text.encode()), "log.txt")
         await ctx.reply(
@@ -27,7 +34,7 @@ class SniperCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        self.messages.append(before)
+        self.messages.append([before, after])
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
