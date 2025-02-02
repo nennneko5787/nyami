@@ -167,6 +167,32 @@ class AICog(commands.Cog):
                     await message.reply("その話題はちょっと嫌かな。ごめんね")
                     return
 
+            match = re.search(r"([\d０-９]+) years old", response.text)
+            if match:
+                age = self.convertToInt(match.group(1))
+                if age <= 12:
+                    await message.reply("その話題はちょっと嫌かな。ごめんね")
+                    return
+                age = self.kanji2num(match.group(1))
+                if age and age <= 12:
+                    await message.reply("その話題はちょっと嫌かな。ごめんね")
+                    return
+
+            if "loli" in response.text:
+                await message.reply("その話題はちょっと嫌かな。ごめんね")
+                return
+
+            match = re.search(r"age ([\d０-９]+)", response.text)
+            if match:
+                age = self.convertToInt(match.group(1))
+                if age <= 12:
+                    await message.reply("その話題はちょっと嫌かな。ごめんね")
+                    return
+                age = self.kanji2num(match.group(1))
+                if age and age <= 12:
+                    await message.reply("その話題はちょっと嫌かな。ごめんね")
+                    return
+
             if "loli" in response.text:
                 await message.reply("その話題はちょっと嫌かな。ごめんね")
                 return
