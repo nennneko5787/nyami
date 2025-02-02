@@ -163,3 +163,5 @@ cython_debug/
 
 cookies.json
 raw_cookies.json
+
+ai-allowed.json
