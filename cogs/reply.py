@@ -49,6 +49,10 @@ class ReplyCog(commands.Cog):
             await message.reply("暴言は良くないよ...", mention_author=True)
         elif "雑魚" in message.content:
             await message.reply(":boomerang:", mention_author=True)
+        elif "障害" in message.content:
+            await message.reply(":boomerang:", mention_author=True)
+        elif "しょうがい" in message.content:
+            await message.reply(":boomerang:", mention_author=True)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
