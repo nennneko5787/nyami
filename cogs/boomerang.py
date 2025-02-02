@@ -9,7 +9,7 @@ from discord.ext import commands, tasks
 dotenv.load_dotenv()
 
 
-class ReplyCog(commands.Cog):
+class BoomerangCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.allowedUsers = []
@@ -45,4 +45,4 @@ class ReplyCog(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(ReplyCog(bot))
+    await bot.add_cog(BoomerangCog(bot))
