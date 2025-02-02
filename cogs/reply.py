@@ -32,7 +32,7 @@ class ReplyCog(commands.Cog):
             await message.reply(
                 "ニャミのことを好きでいてありがとう！", mention_author=False
             )
-            self.bot.cogs["AICog"].allowedUsers.add(message.author.id)
+            self.bot.cogs["AICog"].allowedUsers.append(message.author.id)
             self.bot.cogs["AICog"].allowedUsers = list(
                 set(self.bot.cogs["AICog"].allowedUsers)
             )
