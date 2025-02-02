@@ -34,9 +34,9 @@ class BoomerangCog(commands.Cog):
             return
         self.allowedUsers.append(user.id)
         self.allowedUsers = list(set(self.allowedUsers))
-        with open("ai-allowed.json", "r+") as f:
+        with open("boomerang.json", "r+") as f:
             f.write(json.dumps(self.allowedUsers))
-        await ctx.reply("ホワイトリストに追加されました。")
+        await ctx.reply("リストに追加されました。")
 
     @commands.command("rbl")
     async def removeAIWhiteList(self, ctx: commands.Context, user: discord.User):
@@ -44,9 +44,9 @@ class BoomerangCog(commands.Cog):
             return
         self.allowedUsers.remove(user.id)
         self.allowedUsers = list(set(self.allowedUsers))
-        with open("ai-allowed.json", "r+") as f:
+        with open("boomerang.json", "r+") as f:
             f.write(json.dumps(self.allowedUsers))
-        await ctx.reply("ホワイトリストから削除されました。")
+        await ctx.reply("リストから削除されました。")
 
     async def process_message(self, message: discord.Message):
         await message.reply(":boomerang:", mention_author=True)
