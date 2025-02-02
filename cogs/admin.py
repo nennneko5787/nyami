@@ -20,6 +20,12 @@ class AdminCog(commands.Cog):
             return
         await ctx.message.channel.send(message)
 
+    @commands.command("dl")
+    async def deleteCommand(self, ctx: commands.Context):
+        if ctx.author.id != 1048448686914551879:
+            return
+        await ctx.message.reference.resolved.delete()
+
     @commands.command("reply")
     async def replyCommand(self, ctx: commands.Context, *, message: str):
         if ctx.author.id != 1048448686914551879:
@@ -27,15 +33,13 @@ class AdminCog(commands.Cog):
         await ctx.message.reference.resolved.reply(message, mention_author=True)
 
     @commands.command("ar")
+    @commands.cooldown(1, 5)
     async def addreactionCommand(self, ctx: commands.Context, emoji: str):
-        if ctx.author.id != 1048448686914551879:
-            return
         await ctx.message.reference.resolved.add_reaction(emoji)
 
     @commands.command("rr")
+    @commands.cooldown(1, 5)
     async def removereactionCommand(self, ctx: commands.Context, emoji: str):
-        if ctx.author.id != 1048448686914551879:
-            return
         await ctx.message.reference.resolved.remove_reaction(emoji)
 
 

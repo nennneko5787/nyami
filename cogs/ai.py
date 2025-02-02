@@ -1,15 +1,15 @@
 import asyncio
-import os
-import dotenv
-import discord
-import re
-import base64
+import io
 import json
-from discord.ext import commands
+import os
+import re
 from datetime import datetime
+
+import discord
+import dotenv
 import google.generativeai as genai
 import PIL.Image
-import io
+from discord.ext import commands, tasks
 
 dotenv.load_dotenv()
 
@@ -59,7 +59,7 @@ class AICog(commands.Cog):
         self.cooldown = {}
         self.chats: dict[int, genai.ChatSession] = {}
         self.queue = asyncio.Queue()
-        self.worker_task = asyncio.create_task(self.process_queue())
+        self.process_queue.start()
 
         with open("ai-allowed.json", "r+") as f:
             self.allowedUsers = json.loads(f.read())
@@ -124,17 +124,14 @@ class AICog(commands.Cog):
         del self.chats[ctx.author.id]
         await ctx.reply("履歴を削除したよ！")
 
+    @tasks.loop(seconds=5)
     async def process_queue(self):
         """キュー内のメッセージを順番に処理する"""
-        while True:
-            message = await self.queue.get()
-            try:
-                await self.process_message(message)
-            except Exception as e:
-                print(f"エラー: {e}")
-            finally:
-                self.queue.task_done()
-            await asyncio.sleep(5)
+        message = await self.queue.get()
+        try:
+            await self.process_message(message)
+        except Exception as e:
+            print(f"エラー: {e}")
 
     async def process_message(self, message: discord.Message):
         """AIのメッセージ処理"""
