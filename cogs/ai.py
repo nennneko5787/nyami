@@ -154,7 +154,7 @@ class AICog(commands.Cog):
             )
 
             match = re.search(
-                r"([\d０-９]+)(歳| ans| years old| jahre alt| años| лет| anni| anos| साल| tuổi| yaşında| ปี| שנים| ετών|岁|歲|살)",
+                r"([\d０-９]+)(歳|さい| ans| years old| jahre alt| años| лет| anni| anos| साल| tuổi| yaşında| ปี| שנים| ετών|岁|歲|살)",
                 response.text.lower(),
             )
             if match:
