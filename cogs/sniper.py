@@ -14,7 +14,6 @@ class SniperCog(commands.Cog):
     @commands.cooldown(1, 5)
     async def snipeCommand(self, ctx: commands.Context):
         messages = self.messages
-        messages.reverse()
         text = ""
         for message in messages:
             if ctx.channel.id == message.channel.id:
