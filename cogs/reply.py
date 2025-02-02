@@ -27,10 +27,10 @@ class ReplyCog(commands.Cog):
 
     async def process_message(self, message: discord.Message):
         if "かいさい" in message.content:
-            await message.reply("かいさいって誰のこと？", mention_author=False)
+            await message.reply("かいさいって誰のこと？", mention_author=True)
         elif "ニャミ" in message.content and "好き" in message.content:
             await message.reply(
-                "ニャミのことを好きでいてありがとう！", mention_author=False
+                "ニャミのことを好きでいてありがとう！", mention_author=True
             )
             self.bot.cogs["AICog"].allowedUsers.append(message.author.id)
             self.bot.cogs["AICog"].allowedUsers = list(
@@ -46,7 +46,7 @@ class ReplyCog(commands.Cog):
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
         elif "死ね" in message.content:
-            await message.reply("暴言は良くないよ...", mention_author=False)
+            await message.reply("暴言は良くないよ...", mention_author=True)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
