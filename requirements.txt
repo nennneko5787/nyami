@@ -2,4 +2,3 @@ git+https://github.com/dolfies/discord.py-self
 python-dotenv
 google-generativeai
 pillow
-yt-dlp
