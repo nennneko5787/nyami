@@ -20,7 +20,7 @@ class SniperCog(commands.Cog):
                 before: discord.Message = message[0]
                 after: discord.Message = message[1]
                 if ctx.channel.id == before.channel.id:
-                    text += f"@{before.author.name} > {before.clean_content.split("\n", " ")} -> {after.clean_content.split("\n", " ")}\n"
+                    text += f"@{before.author.name} > {before.clean_content.replace("\n", " ")} -> {after.clean_content.replace("\n", " ")}\n"
                     self.messages.remove(message)
             else:
                 if ctx.channel.id == message.channel.id:
@@ -28,7 +28,7 @@ class SniperCog(commands.Cog):
                     if message.attachments:
                         for attachment in message.attachments:
                             files += f"{attachment.url} "
-                    text += f"@{message.author.name} > {message.clean_content.split("\n", " ")} {files}\n"
+                    text += f"@{message.author.name} > {message.clean_content.replace("\n", " ")} {files}\n"
                     self.messages.remove(message)
 
         file = discord.File(io.BytesIO(text.encode()), "log.txt")
