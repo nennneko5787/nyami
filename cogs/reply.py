@@ -47,6 +47,8 @@ class ReplyCog(commands.Cog):
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
         elif "死ね" in message.content:
             await message.reply("暴言は良くないよ...", mention_author=True)
+        elif "雑魚" in message.content:
+            await message.reply(":boomerang:", mention_author=True)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
