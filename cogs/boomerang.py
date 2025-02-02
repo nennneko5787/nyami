@@ -13,9 +13,20 @@ class BoomerangCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.allowedUsers = []
+        self.queue = asyncio.Queue()
 
         with open("boomerang.json", "r+") as f:
             self.allowedUsers = json.loads(f.read())
+        self.process_queue.start()
+
+    @tasks.loop(seconds=5)
+    async def process_queue(self):
+        """キュー内のメッセージを順番に処理する"""
+        message = await self.queue.get()
+        try:
+            await self.process_message(message)
+        except Exception as e:
+            raise e
 
     @commands.command("abl")
     async def addAIWhiteList(self, ctx: commands.Context, user: discord.User):
@@ -37,11 +48,14 @@ class BoomerangCog(commands.Cog):
             f.write(json.dumps(self.allowedUsers))
         await ctx.reply("ホワイトリストから削除されました。")
 
+    async def process_message(self, message: discord.Message):
+        await message.reply(":boomerang:", mention_author=True)
+
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if not message.author.id in self.allowedUsers:
             return
-        await message.reply(":boomerang:", mention_author=True)
+        await self.queue.put(message)
 
 
 async def setup(bot: commands.Bot):
