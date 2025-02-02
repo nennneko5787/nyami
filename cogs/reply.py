@@ -16,7 +16,7 @@ class ReplyCog(commands.Cog):
         self.queue = asyncio.Queue()
         self.process_queue.start()
 
-    @tasks.loop(seconds=5)
+    @tasks.loop(seconds=15)
     async def process_queue(self):
         """キュー内のメッセージを順番に処理する"""
         message = await self.queue.get()
