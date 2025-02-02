@@ -14,6 +14,7 @@ async def setup_hook():
     await bot.load_extension("cogs.admin")
     await bot.load_extension("cogs.ai")
     await bot.load_extension("cogs.sniper")
+    await bot.load_extension("cogs.reply")
 
 
 bot.run(os.getenv("discord"))
