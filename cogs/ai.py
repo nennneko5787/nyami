@@ -131,7 +131,7 @@ class AICog(commands.Cog):
         try:
             await self.process_message(message)
         except Exception as e:
-            print(f"エラー: {e}")
+            raise e
 
     async def process_message(self, message: discord.Message):
         """AIのメッセージ処理"""
