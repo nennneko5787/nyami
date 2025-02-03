@@ -36,8 +36,9 @@ class MusicCog(commands.Cog):
             discord.FFmpegPCMAudio(info.get("url"), **options), volume
         )
 
-        def after():
-            asyncio.run_coroutine_threadsafe(voiceClient.disconnect(), loop)
+        def after(e: Exception):
+            if ctx.guild.voice_client is not None:
+                asyncio.run_coroutine_threadsafe(voiceClient.disconnect(), loop)
 
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
         voiceClient.play(source, after=after)
