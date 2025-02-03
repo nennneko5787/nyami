@@ -42,10 +42,5 @@ class AdminCog(commands.Cog):
     async def removereactionCommand(self, ctx: commands.Context, emoji: str):
         await ctx.message.reference.resolved.remove_reaction(emoji)
 
-    @commands.Cog.listener()
-    async def on_guild_channel_create(self, channel: discord.TextChannel):
-        if channel.name == "1day-chat":
-            await channel.send("a")
-
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminCog(bot))
