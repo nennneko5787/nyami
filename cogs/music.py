@@ -52,7 +52,7 @@ class MusicCog(commands.Cog):
             await ctx.reply("現在再生中です。キュー機能は現在実装していません")
             return
 
-        await self.playAudio(url, ctx)
+        await self.playAudio(url, ctx, volume)
 
 
 async def setup(bot: commands.Bot):

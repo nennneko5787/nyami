@@ -27,7 +27,7 @@ class YTDLCog(commands.Cog):
         loop = asyncio.get_event_loop()
         with ThreadPoolExecutor() as executor:
             info = await loop.run_in_executor(executor, self.fetchVideo, url)
-        await ctx.reply(f"ダウンロードリンク → {info.get('url')}")
+        await ctx.reply(f"[ダウンロード]({info.get('url')})")
 
 
 async def setup(bot: commands.Bot):
