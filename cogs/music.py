@@ -24,7 +24,7 @@ class MusicCog(commands.Cog):
         await ctx.author.voice.channel.connect()
 
         loop = asyncio.get_event_loop()
-        with ProcessPoolExecutor() as executor:
+        with ThreadPoolExecutor() as executor:
             info = await loop.run_in_executor(executor, self.fetchVideo, url)
 
         options = {
