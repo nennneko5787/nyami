@@ -1,7 +1,7 @@
 import asyncio
 import discord
 from discord.ext import commands
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from yt_dlp import YoutubeDL
 
 
