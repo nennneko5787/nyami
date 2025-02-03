@@ -50,4 +50,4 @@ class MusicCog(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    bot.add_cog(MusicCog(bot))
+    await bot.add_cog(MusicCog(bot))

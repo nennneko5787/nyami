@@ -19,4 +19,5 @@ async def setup_hook():
     await bot.load_extension("cogs.music")
 
 
-bot.run(os.getenv("discord"))
+if __name__ == "__main__":
+    bot.run(os.getenv("discord"))
