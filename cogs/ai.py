@@ -98,6 +98,9 @@ class AICog(commands.Cog):
         num += temp
         return num
 
+    def maskNumber(self, text):
+        return re.sub(r"\b(0?[0-9]|1[0-2])\b", "*", text)
+
     @commands.command("aawl")
     async def addAIWhiteList(self, ctx: commands.Context, user: discord.User):
         if ctx.author.id != 1048448686914551879:
@@ -183,7 +186,9 @@ class AICog(commands.Cog):
                 return
 
             await message.reply(
-                discord.utils.escape_mentions(response.text.lstrip("#")),
+                discord.utils.escape_mentions(
+                    self.maskNumber(response.text.lstrip("#"))
+                ),
                 allowed_mentions=discord.AllowedMentions.none(),
             )
 
