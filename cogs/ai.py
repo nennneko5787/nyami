@@ -98,7 +98,9 @@ class AICog(commands.Cog):
         num += temp
         return num
 
-    def maskNumber(self, text):
+    def maskNumber(self, text: str):
+        for kanji, digit in KANJI_NUM_MAP.items():
+            text = text.replace(kanji, str(digit))
         return re.sub(r"\b(0?[0-9]|1[0-2])\b", "*", text)
 
     @commands.command("aawl")
