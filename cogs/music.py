@@ -17,11 +17,19 @@ class MusicCog(commands.Cog):
                 "cookiefile": "./cookies.txt",
             }
         )
+        self.queue = asyncio.Queue()
 
     def fetchVideo(self, url: str):
         return self.ydl.sanitize_info(self.ydl.extract_info(url, download=False))
 
-    async def playAudio(self, url: str, ctx: commands.Context, volume: float):
+    async def playAudio(self, guild: discord.Guild):
+        if self.queue.qsize() <= 0:
+            if guild.voice_client is not None:
+                guild.voice_client.disconnect()
+            return
+            
+        url, ctx, volume = await self.queue.get()
+        
         await ctx.author.voice.channel.connect()
 
         loop = asyncio.get_event_loop()
@@ -37,8 +45,8 @@ class MusicCog(commands.Cog):
         )
 
         def after(e: Exception):
-            if ctx.guild.voice_client is not None:
-                asyncio.run_coroutine_threadsafe(voiceClient.disconnect(), loop)
+            voiceClient.stop()
+            asyncio.run_coroutine_threadsafe(self.playAudio(guild), loop=loop)
 
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
         voiceClient.play(source, after=after)
@@ -49,11 +57,12 @@ class MusicCog(commands.Cog):
         if ctx.author.voice is None:
             await ctx.reply("ボイスチャンネルに接続してください")
             return
+        await self.queue.put((url, ctx, volume,))
         if ctx.guild.voice_client is not None:
-            await ctx.reply("現在再生中です。キュー機能は現在実装していません")
+            await ctx.reply("キューに曲を追加しました")
             return
 
-        await self.playAudio(url, ctx, volume)
+        await self.playAudio(ctx.guild)
 
 
 async def setup(bot: commands.Bot):
