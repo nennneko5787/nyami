@@ -18,6 +18,7 @@ async def setup_hook():
     # await bot.load_extension("cogs.boomerang")
     await bot.load_extension("cogs.music")
     await bot.load_extension("cogs.ytdl")
+    await bot.load_extension("cogs.nyamidaisukiforever")
 
 
 if __name__ == "__main__":
