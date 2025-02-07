@@ -28,15 +28,13 @@ class NymiDaisukiForeverCog(commands.Cog):
         if ("ニャミ" in message.content and "好き" in message.content) or (
             "#ニャミかわいいフォーエバー" in message.content
         ):
-            await message.reply(
-                "ニャミのことを好きでいてありがとう！", mention_author=True
-            )
             self.bot.cogs["AICog"].allowedUsers.append(message.author.id)
             self.bot.cogs["AICog"].allowedUsers = list(
                 set(self.bot.cogs["AICog"].allowedUsers)
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
+            await message.add_reaction(":heart:")
         if ("ニャミ" in message.content and "嫌い" in message.content) or (
             "#ニャミカスフォーエバー" in message.content
         ):
@@ -46,6 +44,7 @@ class NymiDaisukiForeverCog(commands.Cog):
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
+            await message.add_reaction(":heart:")
 
 
 async def setup(bot: commands.Bot):

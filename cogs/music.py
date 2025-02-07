@@ -27,7 +27,7 @@ class MusicCog(commands.Cog):
             if guild.voice_client is not None:
                 await guild.voice_client.disconnect()
             return
-            
+
         url, ctx, volume = await self.queue.get()
 
         loop = asyncio.get_event_loop()
@@ -42,26 +42,44 @@ class MusicCog(commands.Cog):
             discord.FFmpegPCMAudio(info.get("url"), **options), volume
         )
 
-        def after(e: Exception):
-            voiceClient.stop()
-            asyncio.run_coroutine_threadsafe(self.playAudio(guild), loop=loop)
-
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
+
+        def after(e: Exception):
+            if voiceClient.is_playing():
+                voiceClient.stop()
+            if voiceClient.is_connected():
+                asyncio.run_coroutine_threadsafe(self.playAudio(guild), loop=loop)
+
         voiceClient.play(source, after=after)
 
     @commands.command("play")
-    @commands.cooldown(1, 5)
     async def playCommand(self, ctx: commands.Context, url: str, volume: float = 0.5):
         if ctx.author.voice is None:
-            await ctx.reply("ボイスチャンネルに接続してください")
+            await ctx.message.add_reaction(":x:")
             return
-        await self.queue.put((url, ctx, volume,))
+        await self.queue.put(
+            (
+                url,
+                ctx,
+                volume,
+            )
+        )
         if ctx.guild.voice_client is not None:
-            await ctx.reply("キューに曲を追加しました")
+            await ctx.message.add_reaction(":thumbs_up:")
             return
 
         await ctx.author.voice.channel.connect()
         await self.playAudio(ctx.guild)
+
+    @commands.command("skip")
+    async def skipCommand(self, ctx: commands.Context):
+        voiceClient: discord.VoiceClient = ctx.guild.voice_client
+        await voiceClient.stop()
+
+    @commands.command("stop")
+    async def stopCommand(self, ctx: commands.Context):
+        voiceClient: discord.VoiceClient = ctx.guild.voice_client
+        await voiceClient.disconnect()
 
 
 async def setup(bot: commands.Bot):

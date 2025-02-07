@@ -111,7 +111,7 @@ class AICog(commands.Cog):
         self.allowedUsers = list(set(self.allowedUsers))
         with open("ai-allowed.json", "r+") as f:
             f.write(json.dumps(self.allowedUsers))
-        await ctx.reply("ホワイトリストに追加されました。")
+        await ctx.message.add_reaction(":o:")
 
     @commands.command("rawl")
     async def removeAIWhiteList(self, ctx: commands.Context, user: discord.User):
@@ -121,13 +121,13 @@ class AICog(commands.Cog):
         self.allowedUsers = list(set(self.allowedUsers))
         with open("ai-allowed.json", "r+") as f:
             f.write(json.dumps(self.allowedUsers))
-        await ctx.reply("ホワイトリストから削除されました。")
+        await ctx.message.add_reaction(":o:")
 
     @commands.command("clear")
     @commands.cooldown(1, 5.0)
     async def clearAIHistory(self, ctx: commands.Context):
         del self.chats[ctx.author.id]
-        await ctx.reply("履歴を削除したよ！")
+        await ctx.message.add_reaction(":o:")
 
     @tasks.loop(seconds=5)
     async def process_queue(self):
