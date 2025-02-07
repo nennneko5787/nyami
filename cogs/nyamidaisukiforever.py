@@ -44,7 +44,7 @@ class NymiDaisukiForeverCog(commands.Cog):
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
-            await message.add_reaction("❤️")
+            await message.add_reaction("😡")
 
 
 async def setup(bot: commands.Bot):
