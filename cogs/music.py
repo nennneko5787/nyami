@@ -29,8 +29,6 @@ class MusicCog(commands.Cog):
             return
             
         url, ctx, volume = await self.queue.get()
-        
-        await ctx.author.voice.channel.connect()
 
         loop = asyncio.get_event_loop()
         with ThreadPoolExecutor() as executor:
@@ -62,6 +60,7 @@ class MusicCog(commands.Cog):
             await ctx.reply("キューに曲を追加しました")
             return
 
+        await ctx.author.voice.channel.connect()
         await self.playAudio(ctx.guild)
 
 
