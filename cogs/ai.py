@@ -76,7 +76,7 @@ class AICog(commands.Cog):
 
         # 全角数字を半角に変換
         trans_table = str.maketrans("０１２３４５６７８９", "0123456789")
-        kanji = kanji.translate(trans_table).lower()
+        kanji = kanji.translate(trans_table)
 
         # すでに数字なら変換して返す
         if kanji.isdigit():
@@ -85,7 +85,7 @@ class AICog(commands.Cog):
         # 漢数字の処理
         num = 0
         temp = 0
-        for char in kanji:
+        for char in kanji.lower():
             if char in KANJI_NUM_MAP:
                 val = KANJI_NUM_MAP[char]
                 if val == 10:  # 「十」の処理
