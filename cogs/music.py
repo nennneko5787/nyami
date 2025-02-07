@@ -55,7 +55,7 @@ class MusicCog(commands.Cog):
     @commands.command("play")
     async def playCommand(self, ctx: commands.Context, url: str, volume: float = 0.5):
         if ctx.author.voice is None:
-            await ctx.message.add_reaction(discord.PartialEmoji.from_str(":x:"))
+            await ctx.message.add_reaction("❌")
             return
         await self.queue.put(
             (
@@ -65,7 +65,7 @@ class MusicCog(commands.Cog):
             )
         )
         if ctx.guild.voice_client is not None:
-            await ctx.message.add_reaction(discord.PartialEmoji.from_str(":thumbs_up:"))
+            await ctx.message.add_reaction("👍")
             return
 
         await ctx.author.voice.channel.connect()
