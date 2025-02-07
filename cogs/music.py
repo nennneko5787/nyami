@@ -25,7 +25,7 @@ class MusicCog(commands.Cog):
     async def playAudio(self, guild: discord.Guild):
         if self.queue.qsize() <= 0:
             if guild.voice_client is not None:
-                guild.voice_client.disconnect()
+                await guild.voice_client.disconnect()
             return
             
         url, ctx, volume = await self.queue.get()
