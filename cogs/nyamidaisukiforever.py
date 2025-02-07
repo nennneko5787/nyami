@@ -34,7 +34,7 @@ class NymiDaisukiForeverCog(commands.Cog):
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
-            await message.add_reaction(":heart:")
+            await message.add_reaction(discord.PartialEmoji.from_str(":heart:"))
         if ("ニャミ" in message.content and "嫌い" in message.content) or (
             "#ニャミカスフォーエバー" in message.content
         ):
@@ -44,7 +44,7 @@ class NymiDaisukiForeverCog(commands.Cog):
             )
             with open("ai-allowed.json", "r+") as f:
                 f.write(json.dumps(self.bot.cogs["AICog"].allowedUsers))
-            await message.add_reaction(":heart:")
+            await message.add_reaction(discord.PartialEmoji.from_str(":heart:"))
 
 
 async def setup(bot: commands.Bot):
