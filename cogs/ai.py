@@ -64,40 +64,6 @@ class AICog(commands.Cog):
         with open("ai-allowed.json", "r+") as f:
             self.allowedUsers = json.loads(f.read())
 
-    def convertToInt(self, numStr: str):
-        """全角数字を半角に変換して整数にする"""
-        trans_table = str.maketrans("０１２３４５６７８９", "0123456789")
-        return int(numStr.translate(trans_table))
-
-    def kanji2num(self, kanji: str) -> int:
-        """漢数字を整数に変換する"""
-        if not kanji:
-            return None
-
-        # 全角数字を半角に変換
-        trans_table = str.maketrans("０１２３４５６７８９", "0123456789")
-        kanji = kanji.translate(trans_table)
-
-        # すでに数字なら変換して返す
-        if kanji.isdigit():
-            return int(kanji)
-
-        # 漢数字の処理
-        num = 0
-        temp = 0
-        for char in kanji.lower():
-            if char in KANJI_NUM_MAP:
-                val = KANJI_NUM_MAP[char]
-                if val == 10:  # 「十」の処理
-                    temp = temp * 10 if temp else 10
-                else:
-                    temp += val
-            else:
-                return None  # 予期しない文字
-
-        num += temp
-        return num
-
     def maskNumber(self, text: str):
         for kanji, digit in KANJI_NUM_MAP.items():
             text = text.replace(kanji, str(digit))
@@ -158,39 +124,26 @@ class AICog(commands.Cog):
                 safety_settings=safetySettings,
             )
 
-            match = re.search(
-                r"([\d０-９]+)(歳|さい| ans| years old| y/o| yo| jahre alt| años| лет| anni| anos| साल| tuổi| yaşında| ปี| שנים| ετών|岁|歲|살)",
-                response.text.lower(),
+            text = re.sub(
+                r"(歳|さい|ans|years old|y/o|yo|jahre alt|años|лет|anni|anos|साल|tuổi|yaşında|ปี|שנים|ετών|岁|歲|살)",
+                "**",
+                response.text,
             )
-            if match:
-                age = self.convertToInt(match.group(1))
-                if age <= 12:
-                    await message.reply("その話題はちょっと嫌かな。ごめんね")
-                    return
-                age = self.kanji2num(match.group(1))
-                if age and age <= 12:
-                    await message.reply("その話題はちょっと嫌かな。ごめんね")
-                    return
 
-            match = re.search(r"age ([\d０-９]+)", response.text.lower())
-            if match:
-                age = self.convertToInt(match.group(1))
-                if age <= 12:
-                    await message.reply("その話題はちょっと嫌かな。ごめんね")
-                    return
-                age = self.kanji2num(match.group(1))
-                if age and age <= 12:
-                    await message.reply("その話題はちょっと嫌かな。ごめんね")
-                    return
+            text = re.sub(
+                r"(loli|ロリ|ろり|лоли|लोलीता|לוליטה|λολίτα|萝莉|蘿莉|로리)",
+                "**",
+                text,
+            )
 
-            if "loli" in response.text:
-                await message.reply("その話題はちょっと嫌かな。ごめんね")
-                return
+            text = re.sub(
+                r"(?<!-)#\s",
+                "",
+                text,
+            )
 
             await message.reply(
-                discord.utils.escape_mentions(
-                    self.maskNumber(response.text.lstrip("#"))
-                ),
+                discord.utils.escape_mentions(self.maskNumber(text)),
                 allowed_mentions=discord.AllowedMentions.none(),
             )
 

@@ -15,7 +15,6 @@ class NymiDaisukiForeverCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        """メッセージを受け取ったらキューに追加"""
         if message.content.startswith("nyami#") or message.content.startswith("n#"):
             return
         if message.guild.me.id == message.author.id:
