@@ -19,7 +19,7 @@ class MusicCog(commands.Cog):
         )
         self.queue = asyncio.Queue()
 
-    def _isPlayList(self, url: str, locale: str = "ja-JP") -> list[dict] | bool:
+    def _isPlayList(self, url: str, locale: str = "ja") -> list[dict] | bool:
         try:
             if locale in ["en-US", "en-GB"]:
                 lang = "en"
