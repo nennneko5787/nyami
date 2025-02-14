@@ -92,7 +92,7 @@ class MusicCog(commands.Cog):
         for info in await self.isPlayList(url):
             await self.queue.put(
                 (
-                    url,
+                    info["url"],
                     ctx,
                     volume,
                 )
