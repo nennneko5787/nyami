@@ -146,7 +146,7 @@ class MusicCog(commands.Cog):
         await ctx.message.add_reaction("👍")
 
     @commands.command("resume")
-    async def pauseCommand(self, ctx: commands.Context):
+    async def resumeCommand(self, ctx: commands.Context):
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
         voiceClient.resume()
         await ctx.message.add_reaction("👍")
