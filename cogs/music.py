@@ -1,4 +1,5 @@
 import asyncio
+import random
 from concurrent.futures import ThreadPoolExecutor
 
 import discord
@@ -90,6 +91,28 @@ class MusicCog(commands.Cog):
             await ctx.message.add_reaction("❌")
             return
         for info in await self.isPlayList(url):
+            await self.queue.put(
+                (
+                    info["url"],
+                    ctx,
+                    volume,
+                )
+            )
+        if ctx.guild.voice_client is not None:
+            await ctx.message.add_reaction("👍")
+            return
+
+        await ctx.author.voice.channel.connect()
+        await self.playAudio(ctx.guild)
+
+    @commands.command("splay")
+    async def splayCommand(self, ctx: commands.Context, url: str, volume: float = 0.5):
+        if ctx.author.voice is None:
+            await ctx.message.add_reaction("❌")
+            return
+        shuffledData = await self.isPlayList(url)
+        random.shuffle(shuffledData)
+        for info in shuffledData:
             await self.queue.put(
                 (
                     info["url"],
