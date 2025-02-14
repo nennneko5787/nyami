@@ -89,7 +89,7 @@ class MusicCog(commands.Cog):
         if ctx.author.voice is None:
             await ctx.message.add_reaction("❌")
             return
-        for info in self.isPlayList(url):
+        for info in await self.isPlayList(url):
             await self.queue.put(
                 (
                     url,
