@@ -19,6 +19,38 @@ class MusicCog(commands.Cog):
         )
         self.queue = asyncio.Queue()
 
+    def _isPlayList(self, url: str, locale: str = "ja-JP") -> list[dict] | bool:
+        try:
+            if locale in ["en-US", "en-GB"]:
+                lang = "en"
+            elif locale == "es-ES":
+                lang = "es"
+            elif locale == "sv-SE":
+                lang = "sv"
+            else:
+                lang = locale
+
+            ydlOpts = {
+                "quiet": True,
+                "extract_flat": True,
+                "cookiefile": "./cookies.txt",
+                "extractor_args": {"youtube": {"lang": [lang]}},
+            }
+            with YoutubeDL(ydlOpts) as ydl:
+                info = ydl.sanitize_info(ydl.extract_info(url, download=False))
+            if "entries" in info and len(info["entries"]) > 1:
+                entries = [entry for entry in info["entries"]]
+                return entries
+            else:
+                return [info]
+        except Exception as e:
+            raise e
+
+    async def isPlayList(self, url: str) -> list[str] | bool:
+        loop = asyncio.get_event_loop()
+        with ThreadPoolExecutor() as executor:
+            return await loop.run_in_executor(executor, self._isPlayList, url)
+
     def fetchVideo(self, url: str):
         return self.ydl.sanitize_info(self.ydl.extract_info(url, download=False))
 
@@ -57,13 +89,14 @@ class MusicCog(commands.Cog):
         if ctx.author.voice is None:
             await ctx.message.add_reaction("❌")
             return
-        await self.queue.put(
-            (
-                url,
-                ctx,
-                volume,
+        for info in self.isPlayList(url):
+            await self.queue.put(
+                (
+                    url,
+                    ctx,
+                    volume,
+                )
             )
-        )
         if ctx.guild.voice_client is not None:
             await ctx.message.add_reaction("👍")
             return
@@ -75,11 +108,25 @@ class MusicCog(commands.Cog):
     async def skipCommand(self, ctx: commands.Context):
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
         await voiceClient.stop()
+        await ctx.message.add_reaction("👍")
 
     @commands.command("stop")
     async def stopCommand(self, ctx: commands.Context):
         voiceClient: discord.VoiceClient = ctx.guild.voice_client
         await voiceClient.disconnect()
+        await ctx.message.add_reaction("👍")
+
+    @commands.command("pause")
+    async def pauseCommand(self, ctx: commands.Context):
+        voiceClient: discord.VoiceClient = ctx.guild.voice_client
+        voiceClient.pause()
+        await ctx.message.add_reaction("👍")
+
+    @commands.command("resume")
+    async def pauseCommand(self, ctx: commands.Context):
+        voiceClient: discord.VoiceClient = ctx.guild.voice_client
+        voiceClient.resume()
+        await ctx.message.add_reaction("👍")
 
 
 async def setup(bot: commands.Bot):
