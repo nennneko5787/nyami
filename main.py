@@ -20,6 +20,7 @@ async def setup_hook():
     await bot.load_extension("cogs.ytdl")
     await bot.load_extension("cogs.nyamidaisukiforever")
     await bot.load_extension("cogs.randicon")
+    await bot.load_extension("cogs.joinlog")
 
 
 if __name__ == "__main__":
