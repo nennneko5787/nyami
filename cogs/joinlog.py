@@ -18,4 +18,4 @@ class JoinLogCog(commands.Cog):
         await self.bot.get_channel(1252406721943703683).send(f"{payload.user.mention} が退出しました。")
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(JoinLog(bot))
+    await bot.add_cog(JoinLogCog(bot))
