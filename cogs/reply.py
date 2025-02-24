@@ -37,6 +37,12 @@ class ReplyCog(commands.Cog):
             await message.reply(":boomerang:", mention_author=True)
         if "音猫はゲイですか" in message.content:
             await message.reply("はい、そうです", mention_author=True)
+        if "しね" in message.content:
+            await message.reply("暴言は良くないよ", mention_author=True)
+        if "死のう" in message.content:
+            await message.reply("暴言は良くないよ", mention_author=True)
+        if "ねんねこ" in message.content and "死" in message.content:
+            await message.reply("お前が死ね", mention_author=True)
 
 
 async def setup(bot: commands.Bot):

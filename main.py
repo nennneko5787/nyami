@@ -19,6 +19,7 @@ async def setup_hook():
     await bot.load_extension("cogs.music")
     await bot.load_extension("cogs.ytdl")
     await bot.load_extension("cogs.nyamidaisukiforever")
+    await bot.load_extension("cogs.randicon")
 
 
 if __name__ == "__main__":
