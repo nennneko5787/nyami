@@ -35,7 +35,7 @@ class MusicCog(commands.Cog):
                 "quiet": True,
                 "extract_flat": True,
                 "cookiefile": "./cookies.txt",
-                "extractor_args": {"youtube": {"lang": [lang]}},
+                # "extractor_args": {"youtube": {"lang": [lang]}},
             }
             with YoutubeDL(ydlOpts) as ydl:
                 info = ydl.sanitize_info(ydl.extract_info(url, download=False))
