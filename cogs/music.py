@@ -35,7 +35,7 @@ class MusicCog(commands.Cog):
                 "quiet": True,
                 "extract_flat": True,
                 "cookiefile": "./cookies.txt",
-                # "extractor_args": {"youtube": {"lang": [lang]}},
+                "extractor_args": {"youtube": {"lang": [lang]}},
             }
             with YoutubeDL(ydlOpts) as ydl:
                 info = ydl.sanitize_info(ydl.extract_info(url, download=False))
@@ -91,9 +91,10 @@ class MusicCog(commands.Cog):
             await ctx.message.add_reaction("❌")
             return
         for info in await self.isPlayList(url):
+            print(info)
             await self.queue.put(
                 (
-                    info["url"],
+                    info["webpage_url"],
                     ctx,
                     volume,
                 )
@@ -113,9 +114,10 @@ class MusicCog(commands.Cog):
         shuffledData = await self.isPlayList(url)
         random.shuffle(shuffledData)
         for info in shuffledData:
+            print(info)
             await self.queue.put(
                 (
-                    info["url"],
+                    info["webpage_url"],
                     ctx,
                     volume,
                 )

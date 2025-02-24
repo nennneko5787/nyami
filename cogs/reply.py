@@ -12,7 +12,6 @@ dotenv.load_dotenv()
 class ReplyCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.cooldown = {}
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -25,11 +24,7 @@ class ReplyCog(commands.Cog):
             return
         if message.guild.me in message.mentions:
             return
-        if self.cooldown.get(message.author.id, 0) + 4 >= datetime.now().timestamp():
-            return
 
-        self.cooldown[message.author.id] = datetime.now().timestamp()
-        
         if "かいさい" in message.content:
             await message.reply("かいさいって誰のこと？", mention_author=True)
         if "死ね" in message.content:
@@ -42,7 +37,6 @@ class ReplyCog(commands.Cog):
             await message.reply(":boomerang:", mention_author=True)
         if "音猫はゲイですか" in message.content:
             await message.reply("はい、そうです", mention_author=True)
-
 
 
 async def setup(bot: commands.Bot):

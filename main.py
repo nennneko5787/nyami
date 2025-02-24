@@ -15,7 +15,7 @@ async def setup_hook():
     await bot.load_extension("cogs.ai")
     await bot.load_extension("cogs.sniper")
     await bot.load_extension("cogs.reply")
-    # await bot.load_extension("cogs.boomerang")
+    await bot.load_extension("cogs.boomerang")
     await bot.load_extension("cogs.music")
     await bot.load_extension("cogs.ytdl")
     await bot.load_extension("cogs.nyamidaisukiforever")
