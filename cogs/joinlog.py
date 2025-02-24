@@ -1,5 +1,5 @@
 import discord
-from disord.ext import commands
+from discord.ext import commands
 
 class JoinLogCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
