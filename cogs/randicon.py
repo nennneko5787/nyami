@@ -14,7 +14,7 @@ class RandomProfileCog(commands.Cog):
         self.bot = bot
 
     @commands.command("rp")
-    @commands.cooldown(5)
+    @commands.cooldown(5, 1)
     async def randomProfileCommand(self, ctx: commands.Context):
         number = random.randint(0, 1)
         if number == 0:
@@ -26,7 +26,7 @@ class RandomProfileCog(commands.Cog):
         await ctx.message.add_reaction("👍")
 
     @commands.command("rm")
-    @commands.cooldown(10)
+    @commands.cooldown(10, 1)
     async def randomMentionCommand(self, ctx: commands.Context, count: int = 1):
         members = random.sample(ctx.guild.members, count)
         await ctx.reply(f"{" ".join([member.mention for member in members])}")
