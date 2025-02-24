@@ -25,11 +25,20 @@ class RandomProfileCog(commands.Cog):
                 await self.bot.user.edit(global_name="＊うさぬこ＊", avatar=f.read())
         await ctx.message.add_reaction("👍")
 
+    @commands.command("ra")
+    @commands.cooldown(5, 1)
+    async def randomAvatarCommand(self, ctx: commands.Context):
+        number = random.randint(0, 1)
+        if number == 0:
+            file = discord.File("nyami.png")
+        else:
+            file = discord.File("usanuko.png")
+        await ctx.reply(file=file)
+
     @commands.command("rm")
     @commands.cooldown(10, 1)
-    async def randomMentionCommand(self, ctx: commands.Context, count: int = 1):
-        members = random.sample(ctx.guild.members, count)
-        await ctx.reply(f"{" ".join([member.mention for member in members])}")
+    async def nennneko5787MentionCommand(self, ctx: commands.Context, count: int = 1):
+        await ctx.reply("<@1048448686914551879>")
 
 
 async def setup(bot: commands.Bot):
