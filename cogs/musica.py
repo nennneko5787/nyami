@@ -15,6 +15,8 @@ class MusicACog(commands.Cog):
         match mode:
             case "join":
                 await ctx.author.voice.channel.connect()
+            case "leave":
+                await ctx.voice_client.disconnect()
             case "play":
                 for i in range(1, 15):
                     await ctx.send(f"moyai{i}.music play {url}")
