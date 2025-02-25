@@ -8,13 +8,13 @@ class MusicACog(commands.Cog):
 
     @commands.command("musica")
     async def musicaPlay(
-        self, ctx: commands.Context, mode: str, url: str
+        self, ctx: commands.Context, mode: str, url: str = ""
     ):
         if ctx.author.id != 1048448686914551879:
             return
         match mode:
             case "join":
-                await ctx.author.voice.connect()
+                await ctx.author.voice.channel.connect()
             case "play":
                 for i in range(1, 15):
                     await ctx.send(f"moyai{i}.music play {url}")
